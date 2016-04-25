@@ -1,0 +1,97 @@
+@import "bourbon"
+$menu-type-one-base-font: 'Lato-Regular'
+$menu-type-one-base-text-color: #26272d
+$menu-type-one-elements-padding: rem(6px) rem(12px)
+$menu-type-one-color-active: lighten(desaturate(adjust-hue($menu-type-one-base-text-color, -231.4286), 8.4337), 53.9216)
+$menu-type-one-color-hover: $menu-type-one-color-active
+$menu-type-one-hover-color-default: transparent
+$menu-type-one-gamburger-color: $menu-type-one-base-text-color
+$menu-type-one-gamburger-bg-color: #ccc
+$menu-type-one-gamburger-size: rem(40px)
+$menu-type-one-gamburger-icon-offset: rem(10px)
+$menu-type-one-gamburger-icon-size: rem(20px)
+$menu-type-one-gamburger-radius: $menu-type-one-gamburger-size / 2
+
+
+.menu__wraper
+    display: flex
+    flex-wrap: nowrap
+    &_left
+        justify-content: flex-start
+    &_center
+        justify-content: center
+    &_right
+        justify-content: flex-end
+
+
+.menu__wraper_mobile
+    flex-direction: column
+    justify-content: flex-end
+
+.menu
+    display: inline-flex
+    list-style: none
+    padding: 0
+    margin: 0
+
+.menu__wraper_mobile
+    .menu
+        flex-direction: column
+
+
+.menu__item
+    display: inline-flex
+    &:hover
+        .menu__link
+            color: $menu-type-one-color-hover
+            transition: color 0.15s
+
+
+.menu__link
+    display: inline-flex
+    font-family: $menu-type-one-base-font
+    color: $menu-type-one-base-text-color
+    text-decoration: none
+    padding: $menu-type-one-elements-padding
+    transition: color 0.40s
+
+
+.menu__item_active
+    .menu__link
+        color: $menu-type-one-color-active
+
+
+
+.menu__gamburger
+    display: none
+    justify-content: center
+    align-items: center
+    font-family: 'FontAwesome'
+    text-rendering: auto
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    background-color: $menu-type-one-gamburger-bg-color
+    border-radius: $menu-type-one-gamburger-radius
+    font-size: $menu-type-one-gamburger-icon-size
+    color: $menu-type-one-gamburger-color
+    cursor: pointer
+    width: $menu-type-one-gamburger-size
+    height: $menu-type-one-gamburger-size
+    &:before
+        content: "\f0c9"
+
+.menu__wraper_mobile
+    .menu__gamburger
+        display: inline-flex
+    .menu
+        display: none
+        transition: display 2s
+    &_expanded
+        .menu__gamburger
+            display: none
+        .menu
+            display: inline-flex
+            //overflow: visible
+            transition: display 2s
+
+

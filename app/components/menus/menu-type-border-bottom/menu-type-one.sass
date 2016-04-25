@@ -1,0 +1,56 @@
+@import "bourbon"
+$menu-type-one-base-font: 'Lato-Regular'
+$menu-type-one-elements-padding: rem(6px) rem(12px)
+$menu-type-one-hoverborder-color-visibility: inline-flex
+$menu-type-one-hoverborder-color-size: 3px
+$menu-type-one-hoverborder-color-active: #ccc
+$menu-type-one-hoverborder-color-hover: red
+$menu-type-one-hoverborder-color-default: transparent
+
+
+
+
+.menu
+    display: flex
+    flex-wrap: nowrap
+    align-items: baseline
+    &_left
+        justify-content: flex-end
+    &_right
+        justify-content: flex-start
+    &_center
+        justify-content: center
+
+
+.menu__item
+    display: flex
+    flex-direction: column
+    align-content: center
+    &:hover
+        .menu__hoverborder
+            display: $menu-type-one-hoverborder-color-visibility
+            background-color: $menu-type-one-hoverborder-color-hover
+
+
+.menu__link
+    display: inline-flex
+    font-family: $menu-type-one-base-font
+    text-decoration: none
+    border: 1px solid #cccccc
+    padding: $menu-type-one-elements-padding
+
+
+
+.menu__item_active
+    .menu__hoverborder
+        display: $menu-type-one-hoverborder-color-visibility
+        background-color: $menu-type-one-hoverborder-color-active
+        &:hover
+            .menu__hoverborder
+                display: $menu-type-one-hoverborder-color-visibility
+                background-color: $menu-type-one-hoverborder-color-default
+.menu__hoverborder
+    display: $menu-type-one-hoverborder-color-visibility
+    height: rem($menu-type-one-hoverborder-color-size)
+    background-color: $menu-type-one-hoverborder-color-default
+

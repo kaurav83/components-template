@@ -1,6 +1,6 @@
 "use strict";
 
-// <editor-fold desc="VARS and Server">
+// <editor-fold desc="requires and Server">
 
 const gulp = require('gulp'),
     sass = require('gulp-sass'),
@@ -29,9 +29,6 @@ server.all('/*', function(req, res) {
     res.sendFile('index.html', { root: 'dist' });
 });
 
-const project_name = 'components-template';
-const images_path = '../../Yandex.Disk.localized/work-files/' + project_name;
-
 function log(error) {
     console.log([
         '',
@@ -46,7 +43,13 @@ function log(error) {
 
 // </editor-fold>
 
-// <editor-fold desc="Styles - 'sass' ">
+// <editor-fold desc=" --- VARS --- ">
+const project_name = 'components-template';
+const fonts = ['lato', 'VarelaRound', 'font-awesome']
+const images_path = '../../Yandex.Disk.localized/work-files/' + project_name;
+// </editor-fold
+
+// <editor-fold desc=" --- Styles - 'sass' --- ">
 
     gulp.task('sass', function () {
         gulp.src(['app/assets/styles/fonts.sass', 'app/assets/styles/header.sass', 'app/assets/styles/main.sass'])
@@ -61,7 +64,7 @@ function log(error) {
 
 // </editor-fold>
 
-// <editor-fold desc="Jade - 'jade'">
+// <editor-fold desc=" --- Jade - 'jade' --- ">
 
 gulp.task('jade', function() {
     var YOUR_LOCALS = {};
@@ -75,7 +78,7 @@ gulp.task('jade', function() {
 
 // </editor-fold>
 
-// <editor-fold desc="Scripts - 'js-libs', 'js-common'">
+// <editor-fold desc=" --- Scripts - 'js-libs', 'js-common' --- ">
 
 //gulp.task('js-libs', function() {
 //    return gulp.src([
@@ -85,15 +88,18 @@ gulp.task('jade', function() {
 //});
 
 gulp.task('js-common', function() {
-    return gulp.src('app/assets/scripts/**/*.js')
+    return gulp.src([
+        'app/assets/scripts/**/*.js',
+        'app/components/menus/menu-type-one/menu-type-one.js'
+    ])
         .pipe(concat('common.min.js'))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(gulp.dest('dist/assets/scripts'))
 });
 
 // </editor-fold>
 
-// <editor-fold desc="Images - 'images', 'get-images' ">
+// <editor-fold desc=" --- Images - 'images', 'get-images' --- ">
 
 gulp.task('clear-cache', function () {
     return cache.clearAll();
@@ -124,13 +130,17 @@ gulp.task('images',  function() {
 
 // </editor-fold>
 
-// <editor-fold desc="Fonts - 'fonts' " >
+// <editor-fold desc=" --- Fonts - 'fonts' --- " >
+
 gulp.task('fonts', function() {
-    return gulp.src([
-        'app/assets/fonts/**/*'
-    ])
-        .pipe(gulp.dest('dist/assets/fonts'))
+    fonts.forEach(function (item, index, fonts) {
+        return gulp.src([
+                'app/assets/fonts/' + item + '/*'
+            ])
+            .pipe(gulp.dest('dist/assets/fonts/' + item ))
+    })
 });
+
 // </editor-fold>
 
 gulp.task('clean', function () {
@@ -148,20 +158,18 @@ gulp.task('watch', function(callback) {
     server.listen(serverport);
     refresh.listen(livereloadport);
 
-    gulp.watch('app/**/*.+(sass|scss)', ['sass']);
+    gulp.watch('app/assets/styles/*.+(sass|scss)', ['sass']);
+    gulp.watch('app/components/**/*.+(sass|scss)', ['sass']);
     gulp.watch('app/assets/scripts/**/*.js', ['js-common']);
+    gulp.watch('app/components/**/*.js', ['js-common']);
     gulp.watch('app/*.jade', ['jade']);
     gulp.watch('app/assets/templates/**/*.jade', ['jade']);
+    gulp.watch('app/components/**/*.jade', ['jade']);
     gulp.watch([images_path + '/**/*'], ['get-images']);
     gulp.watch(['app/assets/images/*/**'], ['images']);
     gulp.watch('app/assets/fonts/*', ['fonts']);
 
-    gulp.watch('dist/*.+(htm|html)', refresh.changed);
-    gulp.watch('dist/assets/styles/*', refresh.changed);
-    gulp.watch('dist/assets/scripts/**/*.js', refresh.changed);
-    gulp.watch('dist/assets/images/*', refresh.changed);
-    gulp.watch('dist/assets/fonts/*', refresh.changed);
-    gulp.watch('dist/components/**/*', refresh.changed);
+    gulp.watch('dist/**/*', refresh.changed);
 });
 
 
